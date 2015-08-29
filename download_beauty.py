@@ -5,8 +5,9 @@ import urllib
 import urllib2
 import re
 import os
+import sys
 
-img_regex = re.compile(r'<img src="(//i.imgur.com/[^"]+jpg)" alt=')
+img_regex = re.compile(r'<img src="[^"]*(//[i|m].imgur.com/[^"]+jpg)" alt=')
 
 
 def download_pic(pic_url, dir):
@@ -48,11 +49,11 @@ def store_pic(url):
 
 
 def main():
-    beauty_article_urls = ['https://www.ptt.cc/bbs/Beauty/M.1440778090.A.116.html',
-                           'https://www.ptt.cc/bbs/Beauty/M.1440794981.A.112.html',
-                           'https://www.ptt.cc/bbs/Beauty/M.1440741576.A.CF3.html',
-                           'https://www.ptt.cc/bbs/Beauty/M.1440657889.A.ABB.html',
-                           'https://www.ptt.cc/bbs/Beauty/M.1440520890.A.F24.html']
+    beauty_article_urls = []
+    # 從檔案中毒入 urls
+    with open(sys.argv[1]) as fd:
+        for url in fd:
+            beauty_article_urls.append(url)
 
     for article_url in beauty_article_urls:
         # 下載該網頁的圖片

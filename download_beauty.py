@@ -16,8 +16,13 @@ def download_pic(pic_url, dir):
 
 
 def get_pic_list(url_content):
+    # 縮小 regex parse 的範圍
+    # 爬的範圍不包含 推文
+    parse_start = url_content.find('img src=')
+    parse_end = url_content.find('<span class="f2">')
+    img_url_list = img_regex.findall(url_content[parse_start-1:parse_end])
 
-    img_url_list = img_regex.findall(url_content)
+    #img_url_list = img_regex.findall(url_content)
     # 將每一個 list 中的 element 都加上 'https' 但是不確定有沒有更適合的做法
     img_url_list = ['https:' + img_url for img_url in img_url_list]
     return img_url_list
@@ -35,8 +40,8 @@ def store_pic(url):
     # 在 content 方面沒有處理推文，而是全部讀入
     # 如果要處理不包含推文的圖片可以 parse 到該篇文章 url 的地方
     # 因為在推文的前一行有文章網址
-    content = urllib2.urlopen(url).read()
 
+    content = urllib2.urlopen(url).read()
     # Get title as dir name
     title = get_title(content)
     if not os.path.exists(title):

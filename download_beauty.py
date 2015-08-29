@@ -47,6 +47,16 @@ def store_pic(url):
         download_pic(pic_url, title)
 
 
+def main():
+    beauty_article_urls = ['https://www.ptt.cc/bbs/Beauty/M.1440778090.A.116.html',
+                           'https://www.ptt.cc/bbs/Beauty/M.1440794981.A.112.html',
+                           'https://www.ptt.cc/bbs/Beauty/M.1440741576.A.CF3.html',
+                           'https://www.ptt.cc/bbs/Beauty/M.1440657889.A.ABB.html',
+                           'https://www.ptt.cc/bbs/Beauty/M.1440520890.A.F24.html']
+
+    for article_url in beauty_article_urls:
+        # 下載該網頁的圖片
+        store_pic(article_url)
+
 if __name__ == '__main__':
-    # 下載該網頁的圖片
-    store_pic('https://www.ptt.cc/bbs/Beauty/M.1440833343.A.BBD.html')
+    main()

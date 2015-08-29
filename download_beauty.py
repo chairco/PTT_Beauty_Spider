@@ -22,7 +22,7 @@ def get_pic_list(url_content):
     return img_url_list
 
 
-def getTitle(content):
+def get_title(content):
     title_start = content.find(r'og:title" content')
     title_end = content[title_start:].find(r'" />')
     title = content[title_start+19:title_start+title_end]
@@ -37,7 +37,7 @@ def store_pic(url):
     content = urllib2.urlopen(url).read()
 
     # Get title as dir name
-    title = getTitle(content)
+    title = get_title(content)
     if not os.path.exists(title):
         os.mkdir(title)
 

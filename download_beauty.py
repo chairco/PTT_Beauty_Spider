@@ -1,5 +1,14 @@
 # -*- coding: utf-8 -*-
 
+# 使用方法
+# 請將要下載的PTT 表特版文章網址放到 input.txt 中
+# 在終端機中輸入：python download_beauty.py input.txt
+# 下載的圖片會以該表特文章標題作為資料夾名稱
+#
+# 尚未測試完畢項目：
+# 1. multiprocessing, threading
+# 2. 圖片儲存緩衝
+
 
 import urllib
 import urllib2

@@ -6,6 +6,7 @@ import urllib2
 import re
 import os
 import sys
+import multiprocessing
 
 img_regex = re.compile(r'<img src="[^"]*(//[i|m].imgur.com/[^"]+jpg)" alt=')
 
@@ -22,7 +23,6 @@ def get_pic_list(url_content):
     parse_end = url_content.find('<span class="f2">')
     img_url_list = img_regex.findall(url_content[parse_start-1:parse_end])
 
-    #img_url_list = img_regex.findall(url_content)
     # 將每一個 list 中的 element 都加上 'https' 但是不確定有沒有更適合的做法
     img_url_list = ['https:' + img_url for img_url in img_url_list]
     return img_url_list
@@ -50,7 +50,10 @@ def store_pic(url):
     # Download each picture from picture url. In other word, impur address.
     pic_url_list = get_pic_list(content)
     for pic_url in pic_url_list:
-        download_pic(pic_url, title)
+        p = multiprocessing.Process(target=download_pic, args=(pic_url, title,))
+        p.start()
+        # download_pic(pic_url, title)
+
 
 
 def main():

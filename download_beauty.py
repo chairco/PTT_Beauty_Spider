@@ -50,7 +50,12 @@ def store_pic(url):
     # 如果要處理不包含推文的圖片可以 parse 到該篇文章 url 的地方
     # 因為在推文的前一行有文章網址
 
-    content = urllib2.urlopen(url).read()
+    try:
+        content = urllib2.urlopen(url).read()
+    except urllib2.HTTPError as httperr:
+        print httperr, url
+        return
+
     # Get title as dir name
     title = get_title(content)
     if not os.path.exists(title):
@@ -65,7 +70,7 @@ def store_pic(url):
 
 
 
-def main():
+def  main():
     beauty_article_urls = []
     # 從檔案中毒入 urls
     with open(sys.argv[1]) as fd:

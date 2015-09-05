@@ -44,7 +44,7 @@ def get_title(content):
     return title
 
 
-def store_pic(url):
+def store_pic(url, rate=""):
 
     # 在 content 方面沒有處理推文，而是全部讀入
     # 如果要處理不包含推文的圖片可以 parse 到該篇文章 url 的地方
@@ -57,7 +57,7 @@ def store_pic(url):
         return
 
     # Get title as dir name
-    title = get_title(content)
+    title = rate + get_title(content)
     if not os.path.exists(title):
         os.mkdir(title)
 

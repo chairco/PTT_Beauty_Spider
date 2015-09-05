@@ -19,10 +19,6 @@ def reformalize(level):
         return -10 * int(level[1])
 
 
-def getPhoto(url):
-    return urllib2.urlopen(url).read()
-
-
 def getFirstPage():
     content = urllib2.urlopen('https://www.ptt.cc/bbs/Beauty/index.html').read()
     first_page = re.search(r'href="/bbs/Beauty/index(\d+).html">&lsaquo;', content).group(1)

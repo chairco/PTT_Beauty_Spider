@@ -56,11 +56,14 @@ def crawPage(url, article_list, push_rate):
 
 if __name__ == '__main__':
 
-    first_page = getFirstPage()
-    push_rate, page_term = int(sys.argv[1]), int(sys.argv[2])
-    print push_rate, page_term, first_page
+    start_page, page_term, push_rate = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3])
+    if start_page < 0:
+        start_page = getFirstPage()
+    # print start_page, page_term, push_rate
+
     article_list = []
-    for page in range(first_page, first_page - page_term, -1):
+
+    for page in range(start_page, start_page - page_term, -1):
         page_url = 'https://www.ptt.cc/bbs/Beauty/index' + str(page) + '.html'
         crawPage(page_url, article_list, push_rate)
 

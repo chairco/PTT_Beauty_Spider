@@ -66,4 +66,4 @@ if __name__ == '__main__':
 
     article_list.sort(key=operator.itemgetter(0), reverse=True)
     for hot_rate, article in article_list:
-        download_beauty.store_pic(article, hot_rate)
+        download_beauty.store_pic(article, str(hot_rate))

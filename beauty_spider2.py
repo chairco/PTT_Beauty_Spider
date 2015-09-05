@@ -1,0 +1,69 @@
+# -*- coding: utf-8 -*-
+
+
+import re
+import urllib2
+import sys
+import operator
+import download_beauty
+
+
+comment_regex = re.compile(u'class="nrec"><span class="hl (f\d)">(\w+)?')
+url_regex = re.compile(r'<a href="([^"]+)">')
+
+
+def reformalize(level):
+    if level is None:
+        return 100
+    elif level[0] == 'X':
+        return -10 * int(level[1])
+
+
+def getPhoto(url):
+    return urllib2.urlopen(url).read()
+
+
+def getFirstPage():
+    content = urllib2.urlopen('https://www.ptt.cc/bbs/Beauty/index.html').read()
+    first_page = re.search(r'href="/bbs/Beauty/index(\d+).html">&lsaquo;', content).group(1)
+    return int(first_page)
+
+
+def crawPage(url, article_list, push_rate):
+    source = urllib2.urlopen(url)
+    content = source.read()
+    rent_lst = content.split('<div class="r-ent">')
+
+    for each_data in rent_lst:
+        comment_rate = comment_regex.search(each_data)
+
+        if comment_rate:
+            try:
+                rate = int(comment_rate.group(2))
+            except Exception as err:
+                rate = reformalize(comment_rate.group(2))
+            if rate >= push_rate:
+                # parse each url
+                # get into new page, parse photo
+                try:
+                    url = 'https://www.ptt.cc/' + url_regex.search(each_data).group(1)
+                    article_list.append((rate, url))
+                    # print rate, url
+                except Exception as err:
+                    # print err
+                    pass
+
+
+if __name__ == '__main__':
+
+    first_page = getFirstPage()
+    push_rate, page_term = int(sys.argv[1]), int(sys.argv[2])
+    print push_rate, page_term, first_page
+    article_list = []
+    for page in range(first_page, first_page - page_term, -1):
+        page_url = 'https://www.ptt.cc/bbs/Beauty/index' + str(page) + '.html'
+        crawPage(page_url, article_list, push_rate)
+
+    article_list.sort(key=operator.itemgetter(0), reverse=True)
+    for hot_rate, article in article_list:
+        download_beauty.store_pic(article, hot_rate)

@@ -74,7 +74,7 @@ def store_pic(url, rate=""):
 
 
 
-def  main():
+def main():
     beauty_article_urls = []
     # 從檔案中毒入 urls
     with open(sys.argv[1]) as fd:

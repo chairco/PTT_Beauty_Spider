@@ -67,6 +67,5 @@ if __name__ == '__main__':
         page_url = 'https://www.ptt.cc/bbs/Beauty/index' + str(page) + '.html'
         crawPage(page_url, article_list, push_rate)
 
-    article_list.sort(key=operator.itemgetter(0), reverse=True)
     for hot_rate, article in article_list:
         download_beauty.store_pic(article, str(hot_rate))

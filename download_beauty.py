@@ -57,9 +57,13 @@ def store_pic(url, rate=""):
         return
 
     # Get title as dir name
-    title = rate + get_title(content)
+    title = get_title(content) + rate
     if not os.path.exists(title):
-        os.mkdir(title)
+        try:
+            os.mkdir(title)
+        except:
+            # 尚未修正情況：[正妹] 2015/08/23 成人展58
+            pass
 
     # Download each picture from picture url. In other word, impur address.
     pic_url_list = get_pic_list(content)

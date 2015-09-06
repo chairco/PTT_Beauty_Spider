@@ -40,7 +40,10 @@ def get_pic_list(url_content):
 def get_title(content):
     title_start = content.find(r'og:title" content')
     title_end = content[title_start:].find(r'" />')
+    if title_start == -1:
+        return "Noname"
     title = content[title_start+19:title_start+title_end]
+    title = title if '/' not in title else title.replace('/', '-')
     return title
 
 
@@ -57,21 +60,31 @@ def store_pic(url, rate=""):
         return
 
     # Get title as dir name
-    title = get_title(content) + rate
-    if not os.path.exists(title):
+    article_title = get_title(content)
+    # 轉錄的文章不處理
+    if 'Fw:' in article_title: return
+    # 對於沒標題的文章不附加推文，因為可能不只一個
+    dir_name = article_title + rate if article_title is not 'Noname' else article_title
+    if not os.path.exists(dir_name):
         try:
-            os.mkdir(title)
-        except:
-            # 尚未修正情況：[正妹] 2015/08/23 成人展58
-            pass
+            os.mkdir(dir_name)
+        except OSError as err:
+            print err, url
 
     # Download each picture from picture url. In other word, impur address.
     pic_url_list = get_pic_list(content)
+
+    # 如何優化計數動作?
+    # 預計管理 Process 數目
+    count = 0
     for pic_url in pic_url_list:
-        p = multiprocessing.Process(target=download_pic, args=(pic_url, title,))
+        count += 1
+        p = multiprocessing.Process(target=download_pic, args=(pic_url, dir_name,))
         p.start()
         # download_pic(pic_url, title)
 
+    if count == 0:
+        os.rmdir(dir_name)
 
 
 def main():

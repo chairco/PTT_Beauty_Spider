@@ -11,4 +11,15 @@ $ python beauty_spider2.py 爬蟲起始的頁面 爬幾頁 推文多少以上
 https://www.ptt.cc/bbs/Beauty/index.html
 ```
 
+# 結果圖片
+## 一般情況
+![alt tag](http://i.imgur.com/tLwYbj2.png) <br>
+## 資料夾內部狀況
+![alt tag](http://i.imgur.com/hu8MyIf.png) <br>
+## 執行範例 
+使用:
+``` 
+$ python beauty_spider2.py -1 100 100
+```
+![alt tag](http://i.imgur.com/xlkhW8B.png)
 

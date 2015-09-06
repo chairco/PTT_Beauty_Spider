@@ -22,7 +22,11 @@ img_regex = re.compile(r'<img src="[^"]*(//[i|m].imgur.com/[^"]+jpg)" alt=')
 
 def download_pic(pic_url, dir):
     # 尚未處理重複下載的問題
-    urllib.urlretrieve(pic_url, dir + '/' + pic_url.split('/')[-1])
+    try:
+        pic_name = dir + '/' + pic_url.split('/')[-1]
+        urllib.urlretrieve(pic_url, pic_name)
+    except IOError as ioerr:
+        print "IOError: " + pic_url
 
 
 def get_pic_list(url_content):

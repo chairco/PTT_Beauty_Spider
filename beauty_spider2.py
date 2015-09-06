@@ -61,18 +61,20 @@ if __name__ == '__main__':
         start_page = getFirstPage()
     # print start_page, page_term, push_rate
 
+    print "解析下載網頁面，統計數量中..."
+
     article_list = []
     for page in range(start_page, start_page - page_term, -1):
         page_url = 'https://www.ptt.cc/bbs/Beauty/index' + str(page) + '.html'
         crawPage(page_url, article_list, push_rate)
 
-    print "解析下載網頁中，即將開始下載圖片"
+    print "即將開始下載圖片, 請再等一下下 ^_^"
 
     total = len(article_list)
     count = 0
     for hot_rate, article in article_list:
         download_beauty.store_pic(article, str(hot_rate))
         count += 1
-        print "已經完成: " + str(100 * count / total ) + " %."
+        print "已經下載: " + str(100 * count / total ) + " %."
 
     print "下載完畢，滿滿的正妹圖已入袋拉！"

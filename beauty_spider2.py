@@ -26,8 +26,13 @@ def getFirstPage():
 
 
 def crawPage(url, article_list, push_rate):
-    source = urllib2.urlopen(url)
-    content = source.read()
+    try:
+        source = urllib2.urlopen(url)
+        content = source.read()
+    except urllib2.URLError as urlerr:
+        print "URLError detected: " + url
+        return
+
     rent_lst = content.split('<div class="r-ent">')
 
     for each_data in rent_lst:

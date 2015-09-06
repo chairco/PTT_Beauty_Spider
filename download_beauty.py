@@ -26,7 +26,7 @@ def download_pic(pic_url, dir):
         pic_name = dir + '/' + pic_url.split('/')[-1]
         urllib.urlretrieve(pic_url, pic_name)
     except IOError as ioerr:
-        print "IOError: " + pic_url
+        print "IOError in download picture: " + pic_url
 
 
 def get_pic_list(url_content):
@@ -60,7 +60,10 @@ def store_pic(url, rate=""):
     try:
         content = urllib2.urlopen(url).read()
     except urllib2.HTTPError as httperr:
-        print httperr, url
+        print "urllib2.HTTPError detected in store_pic():" + url
+        return
+    except urllib2.URLError as urlerr:
+        print "URLError detected in store_pic(): " + url
         return
 
     # Get title as dir name

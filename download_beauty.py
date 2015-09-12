@@ -86,13 +86,13 @@ def store_pic(url, rate=""):
 
     # 如何優化計數動作?
     # 預計管理 Process 數目
-    # 增加p.join()
+    # mark p.join()
     count = 0
     for pic_url in pic_url_list:
         count += 1
         p = multiprocessing.Process(target=download_pic, args=(pic_url, dir_name,))
         p.start()
-        p.join()
+        #p.join()
         # download_pic(pic_url, title)
 
     if count == 0:
